@@ -3,6 +3,7 @@
     <Copyright>Copyright © 2015-2018 Petabridge</Copyright>
     <Authors>Petabridge</Authors>
     <VersionPrefix>0.1.0</VersionPrefix>
+     <PackageReleaseNotes>Fixed a bug that could occur during sampling where a `NoOpSpanContext` could accidentally be added as a parent under some circumstances. In these instances, we now filter these illegal span types out.</PackageReleaseNotes>
     <PackageIconUrl>https://petabridge.com/images/logo.png</PackageIconUrl>
     <PackageProjectUrl>
       https://github.com/petabridge/Petabridge.Tracing.Zipkin
