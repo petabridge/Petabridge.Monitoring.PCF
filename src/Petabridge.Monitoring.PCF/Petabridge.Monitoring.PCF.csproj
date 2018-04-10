@@ -7,4 +7,10 @@
     <Description>High performance .NET driver for working with Pivotal Cloud Foundry (PCF) Metrics.</Description>
   </PropertyGroup>
 
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Phobos.Actor.Common" Version="1.0.0" />
+  </ItemGroup>
+
 </Project>
