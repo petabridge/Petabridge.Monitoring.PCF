@@ -1,7 +1,13 @@
-﻿namespace Petabridge.Monitoring.PCF.Impl
+﻿// -----------------------------------------------------------------------
+// <copyright file="MetricsForwarderCredentials.cs" company="Petabridge, LLC">
+//      Copyright (C) 2018 - 2018 Petabridge, LLC <https://petabridge.com>
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace Petabridge.Monitoring.PCF.Impl
 {
     /// <summary>
-    /// The credentials used for emitting to the PCF metrics forwarder.
+    ///     The credentials used for emitting to the PCF metrics forwarder.
     /// </summary>
     public sealed class MetricsForwarderCredentials
     {
@@ -12,12 +18,12 @@
         }
 
         /// <summary>
-        /// The access key, needed for authenticating against the PCF service.
+        ///     The access key, needed for authenticating against the PCF service.
         /// </summary>
         public string AccessKey { get; }
 
         /// <summary>
-        /// The HTTP endpoint of the PCF metrics forwarder.
+        ///     The HTTP endpoint of the PCF metrics forwarder.
         /// </summary>
         public string HostName { get; }
     }

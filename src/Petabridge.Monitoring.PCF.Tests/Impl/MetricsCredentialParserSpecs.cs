@@ -1,9 +1,14 @@
-using System;
+// -----------------------------------------------------------------------
+// <copyright file="MetricsCredentialParserSpecs.cs" company="Petabridge, LLC">
+//      Copyright (C) 2018 - 2018 Petabridge, LLC <https://petabridge.com>
+// </copyright>
+// -----------------------------------------------------------------------
+
 using FluentAssertions;
 using Petabridge.Monitoring.PCF.Impl;
 using Xunit;
 
-namespace Petabridge.Monitoring.PCF.Tests
+namespace Petabridge.Monitoring.PCF.Tests.Impl
 {
     public class MetricsCredentialParserSpecs
     {
