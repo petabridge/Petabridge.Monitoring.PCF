@@ -13,3 +13,5 @@ docs/
 bin/
 PerfResults/
 tools/
+*.Tests/
+*.Performance/

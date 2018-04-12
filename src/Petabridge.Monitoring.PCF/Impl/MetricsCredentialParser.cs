@@ -43,7 +43,7 @@ namespace Petabridge.Monitoring.PCF.Impl
         {
             var jsonObj = JToken.Parse(vcapServices)["metrics-forwarder"].First()["credentials"];
             var accessKey = jsonObj["access_key"].Value<string>();
-            var hostName = jsonObj["hostname"].Value<string>();
+            var hostName = jsonObj["endpoint"].Value<string>();
 
             return new MetricsForwarderCredentials(accessKey, hostName);
         }

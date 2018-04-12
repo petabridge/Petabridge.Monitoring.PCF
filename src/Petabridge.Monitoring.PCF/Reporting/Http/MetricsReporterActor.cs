@@ -61,7 +61,7 @@ namespace Petabridge.Monitoring.PCF.Reporting.Http
                 if (_log.IsDebugEnabled)
                     _log.Debug(
                         "Received notification that Span batch was received by PCF Metrics Forwarder at [{0}] with success code [{1}]",
-                        _settings.Credentials.HostName, rsp.StatusCode);
+                        _settings.Credentials.EndPoint, rsp.StatusCode);
             });
 
             // Indicates that one of our HTTP requests timed out
@@ -69,7 +69,7 @@ namespace Petabridge.Monitoring.PCF.Reporting.Http
             {
                 if (_log.IsErrorEnabled)
                     _log.Error(f.Cause, "Error occurred while uploading metrics to [{0}]",
-                        _settings.Credentials.HostName);
+                        _settings.Credentials.EndPoint);
             });
         }
 

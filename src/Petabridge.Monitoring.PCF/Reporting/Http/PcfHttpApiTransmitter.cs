@@ -51,7 +51,7 @@ namespace Petabridge.Monitoring.PCF.Reporting.Http
                 content.Headers.Add("Content-Type", MediaType);
                 content.Headers.Add("Content-Length", stream.Length.ToString());
                 content.Headers.Add("Authorization", settings.Credentials.AccessKey);
-                return await _client.PostAsync(settings.Credentials.HostName, content, cts.Token);
+                return await _client.PostAsync(settings.Credentials.EndPoint, content, cts.Token);
             }
         }
     }

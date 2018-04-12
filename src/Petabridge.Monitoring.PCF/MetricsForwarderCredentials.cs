@@ -11,10 +11,10 @@ namespace Petabridge.Monitoring.PCF
     /// </summary>
     public sealed class MetricsForwarderCredentials
     {
-        public MetricsForwarderCredentials(string accessKey, string hostName)
+        public MetricsForwarderCredentials(string accessKey, string endPoint)
         {
             AccessKey = accessKey;
-            HostName = hostName;
+            EndPoint = endPoint;
         }
 
         /// <summary>
@@ -25,6 +25,6 @@ namespace Petabridge.Monitoring.PCF
         /// <summary>
         ///     The HTTP endpoint of the PCF metrics forwarder.
         /// </summary>
-        public string HostName { get; }
+        public string EndPoint { get; }
     }
 }
