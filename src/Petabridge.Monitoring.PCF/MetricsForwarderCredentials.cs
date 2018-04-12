@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Petabridge.Monitoring.PCF.Impl
+namespace Petabridge.Monitoring.PCF
 {
     /// <summary>
     ///     The credentials used for emitting to the PCF metrics forwarder.

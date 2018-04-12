@@ -4,8 +4,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
-
 namespace Petabridge.Monitoring.PCF
 {
     /// <summary>
@@ -13,79 +11,16 @@ namespace Petabridge.Monitoring.PCF
     /// </summary>
     public interface IPcfMetricRecorder
     {
-        void IncrementCounter(string name, int value = 1, double sampleRate = PcfMetricRecording.DefaultSampleRate);
-        void DecrementCounter(string name, int value = -1, double sampleRate = PcfMetricRecording.DefaultSampleRate);
+        /// <summary>
+        /// The settings for connecting to the PCF metrics forwarder.
+        /// </summary>
+        PcfMetricForwarderSettings Settings { get; }
 
-        void IncrementCounter(string name, long timestamp, int value = 1,
-            double sampleRate = PcfMetricRecording.DefaultSampleRate);
+        void IncrementCounter(string name, int value = 1);
+        void DecrementCounter(string name, int value = -1);
 
-        void DecrementCounter(string name, long timestamp, int value = -1,
-            double sampleRate = PcfMetricRecording.DefaultSampleRate);
+        void RecordGauge(string name, double value);
 
-        void RecordGauge(string name, double value, double sampleRate = PcfMetricRecording.DefaultSampleRate);
-
-        void RecordGauge(string name, long timestamp, double value,
-            double sampleRate = PcfMetricRecording.DefaultSampleRate);
-
-        void RecordTiming(string name, long value, double sampleRate = PcfMetricRecording.DefaultSampleRate);
-
-        void RecordTiming(string name, long timestamp, long value,
-            double sampleRate = PcfMetricRecording.DefaultSampleRate);
-    }
-
-    /// <summary>
-    ///     A <see cref="IPcfMetricRecorder" /> implementation that uses Akka.NET actors to aggregate
-    ///     counters and other metrics
-    /// </summary>
-    public sealed class PcfMetricRecorder : IPcfMetricRecorder
-    {
-        public const string CounterPostfix = "";
-        public const string TimingPostfix = "";
-
-        public void IncrementCounter(string name, int value = 1,
-            double sampleRate = PcfMetricRecording.DefaultSampleRate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DecrementCounter(string name, int value = -1,
-            double sampleRate = PcfMetricRecording.DefaultSampleRate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void IncrementCounter(string name, long timestamp, int value = 1,
-            double sampleRate = PcfMetricRecording.DefaultSampleRate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DecrementCounter(string name, long timestamp, int value = -1,
-            double sampleRate = PcfMetricRecording.DefaultSampleRate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RecordGauge(string name, double value, double sampleRate = PcfMetricRecording.DefaultSampleRate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RecordGauge(string name, long timestamp, double value,
-            double sampleRate = PcfMetricRecording.DefaultSampleRate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RecordTiming(string name, long value, double sampleRate = PcfMetricRecording.DefaultSampleRate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RecordTiming(string name, long timestamp, long value,
-            double sampleRate = PcfMetricRecording.DefaultSampleRate)
-        {
-            throw new NotImplementedException();
-        }
+        void RecordTiming(string name, long value);
     }
 }
