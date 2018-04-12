@@ -1,8 +1,12 @@
 ---
 applications:
 - name: pcf-metrics-demo
-  random-route: true
+  routes:
+  - route: pcf-metrics-demo
+  - route: tcp.pcf-metrics-demo:9110
   memory: 166M
+  services:
+   - sample-metrics 
   env:
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
     DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
