@@ -4,6 +4,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>High performance .NET driver for working with Pivotal Cloud Foundry (PCF) Metrics.</Description>
   </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Akka.Bootstrap.PCF" Version="0.1.1" />
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="1.2.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Phobos.Actor.Common" Version="1.0.0" />
+  </ItemGroup>
 
 </Project>
