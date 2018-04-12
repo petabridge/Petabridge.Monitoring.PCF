@@ -4,8 +4,10 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace Petabridge.Monitoring.PCF.Demo
 {
@@ -18,7 +20,13 @@ namespace Petabridge.Monitoring.PCF.Demo
 
         public static IWebHost BuildWebHost(string[] args)
         {
+            var config = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .Build();
+
             return WebHost.CreateDefaultBuilder(args)
+                .UseConfiguration(config)
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .Build();
         }

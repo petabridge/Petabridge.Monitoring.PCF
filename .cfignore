@@ -1,3 +1,5 @@
+.dotnet/
+.fake/
 .vs/
 .vscode/
 bin/
@@ -7,3 +9,7 @@ obj/
 README.md
 project.lock.json
 Properties/
+docs/
+bin/
+PerfResults/
+tools/

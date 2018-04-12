@@ -1,9 +1,7 @@
 ---
 applications:
 - name: pcf-metrics-demo
-  routes:
-  - route: pcf-metrics-demo
-  - route: tcp.pcf-metrics-demo:9110
+  random-route: true
   memory: 166M
   services:
    - sample-metrics 
