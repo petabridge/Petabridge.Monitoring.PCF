@@ -48,9 +48,9 @@ namespace Petabridge.Monitoring.PCF.Reporting.Http
                 var cts = new CancellationTokenSource(_timeout);
                 stream.Position = 0;
                 var content = new StreamContent(stream);
-                content.Headers.Add("Content-Type", MediaType);
-                content.Headers.Add("Content-Length", stream.Length.ToString());
-                content.Headers.Add("Authorization", settings.Credentials.AccessKey);
+                content.Headers.TryAddWithoutValidation("Content-Type", MediaType);
+                content.Headers.TryAddWithoutValidation("Content-Length", stream.Length.ToString());
+                content.Headers.TryAddWithoutValidation("Authorization", settings.Credentials.AccessKey);
                 return await _client.PostAsync(settings.Credentials.EndPoint, content, cts.Token);
             }
         }
