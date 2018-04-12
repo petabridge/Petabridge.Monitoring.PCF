@@ -11,6 +11,7 @@ using Akka.Bootstrap.PCF;
 using Akka.Configuration;
 using Akka.Util.Internal;
 using Petabridge.Monitoring.PCF.Impl.Actors;
+using Petabridge.Monitoring.PCF.Reporting.Http;
 using Petabridge.Monitoring.PCF.Util;
 
 namespace Petabridge.Monitoring.PCF
@@ -111,7 +112,8 @@ namespace Petabridge.Monitoring.PCF
             // spawn as a System actor, so in the event of being in a non-owned system our traces get shut down
             // only after all of the user-defined actors have terminated.
             var reporterActor = system.AsInstanceOf<ExtendedActorSystem>().SystemActorOf(
-                Props.Create(() => new MetricsReporterActor()), $"pcf-reporter-{NameCounter.GetAndIncrement()}");
+                Props.Create(() => new MetricsReporterActor(settings)),
+                $"pcf-reporter-{NameCounter.GetAndIncrement()}");
 
 
             var counterActor = system.AsInstanceOf<ExtendedActorSystem>().SystemActorOf(
