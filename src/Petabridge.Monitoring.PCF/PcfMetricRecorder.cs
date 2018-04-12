@@ -95,6 +95,16 @@ namespace Petabridge.Monitoring.PCF
         /// <summary>
         ///     Performs all of the initialization to get the PCF metrics forwarding engine up and running.
         /// </summary>
+        /// <param name="system">Optional. An <see cref="ActorSystem" /> used to spawn the underlying actors needed to do the job.</param>
+        /// <returns>A new <see cref="PcfMetricRecorder" /> instance.</returns>
+        public static PcfMetricRecorder Create(ActorSystem system = null)
+        {
+            return Create(PcfMetricForwarderSettings.FromEnvironment(), system);
+        }
+
+        /// <summary>
+        ///     Performs all of the initialization to get the PCF metrics forwarding engine up and running.
+        /// </summary>
         /// <param name="settings">The options and settings needed to communicate with PCF.</param>
         /// <param name="system">Optional. An <see cref="ActorSystem" /> used to spawn the underlying actors needed to do the job.</param>
         /// <returns>A new <see cref="PcfMetricRecorder" /> instance.</returns>
