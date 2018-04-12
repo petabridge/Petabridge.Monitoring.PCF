@@ -31,6 +31,37 @@ metrics.IncrementCounter("http.serv"); // record a counter (increment by 1)
 metrics.IncrementCounter("http.serv");
 ```
 
+Typically you don't need to explicitly pass in any configuration elements for the `PcfMetricRecorder` to work correctly. We're able to extract all of the necessary credentials and authentication information from the `PcfEnvironment` class defined inside [the `Akka.Bootstrap.PCF` package](https://github.com/petabridge/akkadotnet-bootstrap/tree/dev/src/Akka.Bootstrap.PCF), which we take as a dependency.
+
+### Integrating with Akka.NET
+If you're intending on using PCF alongside Akka.NET and you want `Petabridge.Monitoring.PCF` to leverage your pre-existing [`ActorSystem`](http://getakka.net/api/Akka.Actor.ActorSystem.html) instead of creating a new one, you can adjust the call to `PcfMetricsRecorder.Create` accordingly:
+
+```
+var mySys = ActorSystem.Create("foo"); // your ActorSystem
+var metrics = PcfMetricsRecorder.Create(mySys);
+```
+
+This will cause the `PcfMetricsRecorder` to hook its reporting infrastructure into your `ActorSystem` instead of creating its own.
+
+## Trying out `Petabridge.Monitoring.PCF` on PCF
+If you want to try this solution out on Pivotal Cloud Foundry, this solution ships with a [PCF manifest](manifest.yml) and a [basic demo web application](src/Petabridge.Monitoring.PCF.Demo) that are ready for deployment on PCF immediately.
+
+If you have the [PCF CLI installed](https://docs.cloudfoundry.org/cf-cli/getting-started.html):
+
+* [Install the PCF Metrics Forwarder](https://docs.pivotal.io/metrics-forwarder/installing.html) and make it available in the space you'll be using for deployment;
+* clone this repository;
+* edit the `manifest.yml` file to include your application settings. Specifically, you'll want to edit the `services` section to include the name of your PCF Metrics Forwarder service.
+
+And then execute the following command:
+
+```
+PS> cf push pcf-akka-demo -b https://github.com/cloudfoundry/dotnet-core-buildpack.git
+```
+
+Once the deployment goes through, if you click around on the web application a couple of times you should see some metrics show up inside PCF Metrics under the heads `http.serv.count` and `http.serv.duration`, a counter and a timer respectively.
+
+![Petabridge.Monitoring.PCF](docs/images/pcf-monitor-demo.png)
+
 ## Building this solution
 To run the build script associated with this solution, execute the following:
 
