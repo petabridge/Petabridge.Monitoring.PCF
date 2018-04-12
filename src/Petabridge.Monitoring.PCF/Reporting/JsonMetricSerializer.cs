@@ -72,7 +72,7 @@ namespace Petabridge.Monitoring.PCF.Reporting
             writer.WritePropertyName(InstanceId);
             writer.WriteValue(settings.Identity.InstanceId);
             writer.WritePropertyName(InstanceIndex);
-            writer.WriteValue(settings.Identity.InstanceIndex);
+            writer.WriteValue(settings.Identity.InstanceIndex.ToString());
             writer.WritePropertyName(Metrics);
             writer.WriteStartArray();
         }
@@ -117,17 +117,19 @@ namespace Petabridge.Monitoring.PCF.Reporting
                 writer.WriteValue(recording.Unit);
             }
 
+
+            writer.WritePropertyName(Tags);
+            writer.WriteStartObject();
             if (recording.Tags != null)
             {
-                writer.WritePropertyName(Tags);
-                writer.WriteStartArray();
                 foreach (var t in recording.Tags)
                 {
                     writer.WritePropertyName(t.Key);
                     writer.WriteValue(t.Value);
                 }
-                writer.WriteEndArray();
             }
+            writer.WriteEndObject();
+
             writer.WriteEndObject();
         }
     }

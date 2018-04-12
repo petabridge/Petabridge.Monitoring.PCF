@@ -31,7 +31,7 @@ namespace Petabridge.Monitoring.PCF.Reporting.Http
         {
             _settings = settings;
             PendingMessages = new List<PcfMetricRecording>(_settings.MaximumBatchSize);
-            _transmitter = new PcfHttpApiTransmitter(new HttpClient(), _settings.PcfHttpTimeout);
+            _transmitter = new PcfHttpApiTransmitter(new HttpClient(), _settings);
             Batching();
         }
 
@@ -59,9 +59,11 @@ namespace Petabridge.Monitoring.PCF.Reporting.Http
             Receive<HttpResponseMessage>(rsp =>
             {
                 if (_log.IsDebugEnabled)
+                {
                     _log.Debug(
-                        "Received notification that Span batch was received by PCF Metrics Forwarder at [{0}] with success code [{1}]",
-                        _settings.Credentials.EndPoint, rsp.StatusCode);
+                        "Received notification that metrics batch was received by PCF Metrics Forwarder at [{0}] with success code [{1}] [{2}]",
+                        _settings.Credentials.EndPoint, rsp.StatusCode, rsp.Content.ReadAsStringAsync().Result);
+                }
             });
 
             // Indicates that one of our HTTP requests timed out
@@ -75,7 +77,7 @@ namespace Petabridge.Monitoring.PCF.Reporting.Http
 
         private void ExecuteDelivery()
         {
-            _transmitter.TransmitMetrics(PendingMessages, _settings).PipeTo(Self);
+            _transmitter.TransmitMetrics(PendingMessages).PipeTo(Self);
 
             /*
                      * TransmitSpans will synchronously write out the JSON in a stream before this method

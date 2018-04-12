@@ -7,6 +7,8 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.IO;
@@ -32,26 +34,29 @@ namespace Petabridge.Monitoring.PCF.Reporting.Http
         private readonly HttpClient _client;
         private readonly IMetricSerializer _serializer = new JsonMetricSerializer();
         private readonly TimeSpan _timeout;
+        private readonly PcfMetricForwarderSettings _settings;
 
-        public PcfHttpApiTransmitter(HttpClient client, TimeSpan timeout)
+        public PcfHttpApiTransmitter(HttpClient client, PcfMetricForwarderSettings settings)
         {
+            _settings = settings;
             _client = client;
-            _timeout = timeout;
+
+            // NOTE: PCF requires a non-standard Authorization header - not allowed to prefix it with an authentication scheme
+            _client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", _settings.Credentials.AccessKey);
+            _timeout = settings.PcfHttpTimeout;
         }
 
-        public async Task<HttpResponseMessage> TransmitMetrics(IEnumerable<PcfMetricRecording> metrics,
-            PcfMetricForwarderSettings settings)
+        public async Task<HttpResponseMessage> TransmitMetrics(IEnumerable<PcfMetricRecording> metrics)
         {
             using (var stream = StreamManager.GetStream("Petabridge.Monitoring.PCF.HttpTransmitter"))
             {
-                _serializer.Serialize(stream, metrics, settings);
+                _serializer.Serialize(stream, metrics, _settings);
                 var cts = new CancellationTokenSource(_timeout);
                 stream.Position = 0;
                 var content = new StreamContent(stream);
-                content.Headers.TryAddWithoutValidation("Content-Type", MediaType);
-                content.Headers.TryAddWithoutValidation("Content-Length", stream.Length.ToString());
-                content.Headers.TryAddWithoutValidation("Authorization", settings.Credentials.AccessKey);
-                return await _client.PostAsync(settings.Credentials.EndPoint, content, cts.Token);
+                var request =
+                    new HttpRequestMessage(HttpMethod.Post, _settings.Credentials.EndPoint) { Content = content };
+                return await _client.SendAsync(request, cts.Token);
             }
         }
     }

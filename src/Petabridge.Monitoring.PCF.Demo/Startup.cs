@@ -4,8 +4,10 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System;
 using Akka.Actor;
 using Akka.Bootstrap.PCF;
+using Akka.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,17 +32,19 @@ namespace Petabridge.Monitoring.PCF.Demo
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
 
-            system = ActorSystem.Create("pb");
+            system = ActorSystem.Create("pb", ConfigurationFactory.ParseString(@"akka.loglevel = DEBUG"));
             var cmd = PetabridgeCmd.Get(system);
             cmd.Start();
 
-            var metrics = PcfMetricRecorder.Create();
+            var metrics = PcfMetricRecorder.Create(system);
 
             app.Run(async context =>
             {
                 var start = metrics.TimeProvider.NowUnixEpoch;
                 metrics.IncrementCounter("http.serv");
-                await context.Response.WriteAsync(PcfEnvironment.Instance.Value.ToString());
+                var environment = PcfEnvironment.Instance.Value.ToString() + Environment.NewLine +
+                                  Environment.GetEnvironmentVariable("VCAP_SERVICES");
+                await context.Response.WriteAsync(environment);
                 metrics.RecordTiming("http.serv", metrics.TimeProvider.NowUnixEpoch - start);
             });
         }
