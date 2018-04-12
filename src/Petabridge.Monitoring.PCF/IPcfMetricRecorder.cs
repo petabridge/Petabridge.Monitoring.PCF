@@ -12,7 +12,7 @@ namespace Petabridge.Monitoring.PCF
     public interface IPcfMetricRecorder
     {
         /// <summary>
-        /// The settings for connecting to the PCF metrics forwarder.
+        ///     The settings for connecting to the PCF metrics forwarder.
         /// </summary>
         PcfMetricForwarderSettings Settings { get; }
 

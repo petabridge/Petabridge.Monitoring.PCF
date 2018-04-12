@@ -1,6 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// -----------------------------------------------------------------------
+// <copyright file="PcfMetricForwarderSettings.cs" company="Petabridge, LLC">
+//      Copyright (C) 2018 - 2018 Petabridge, LLC <https://petabridge.com>
+// </copyright>
+// -----------------------------------------------------------------------
+
+using System;
 using Akka.Bootstrap.PCF;
 using Petabridge.Monitoring.PCF.Impl;
 using Petabridge.Monitoring.PCF.Util;
@@ -8,10 +12,10 @@ using Petabridge.Monitoring.PCF.Util;
 namespace Petabridge.Monitoring.PCF
 {
     /// <summary>
-    /// The full range of settings needed to publish to the PCF Metrics forwarder.
+    ///     The full range of settings needed to publish to the PCF Metrics forwarder.
     /// </summary>
     /// <remarks>
-    /// Populated by <see cref="PcfEnvironment"/>.
+    ///     Populated by <see cref="PcfEnvironment" />.
     /// </remarks>
     public sealed class PcfMetricForwarderSettings
     {
@@ -19,21 +23,8 @@ namespace Petabridge.Monitoring.PCF
         public static readonly TimeSpan DefaultReportingInterval = TimeSpan.FromMilliseconds(100);
         public static readonly TimeSpan DefaultHttpTimeoutInterval = TimeSpan.FromSeconds(5);
 
-        /// <summary>
-        /// Creates a new set of PCF Metrics Forwarder settings from built-in environment variables.
-        /// </summary>
-        /// <returns>A new settings instance.</returns>
-        public static PcfMetricForwarderSettings FromEnvironment(int maximumBatchSize = DefaultBatchSize,
-            TimeSpan? maxBatchInterval = null, TimeSpan? pcfHttpTimeout = null, bool debugLogging = false,
-            bool errorLogging = true)
-        {
-            return new PcfMetricForwarderSettings(new PcfIdentity(PcfEnvironment.Instance.Value.VCAP_APPLICATION.ApplicationId, 
-                PcfEnvironment.Instance.Value.CF_INSTANCE_GUID, 
-                PcfEnvironment.Instance.Value.CF_INSTANCE_INDEX ?? 0), 
-                MetricsCredentialParser.ParseVcapServices(), maximumBatchSize, maxBatchInterval, pcfHttpTimeout, debugLogging, errorLogging);
-        }
-
-        public PcfMetricForwarderSettings(PcfIdentity identity, MetricsForwarderCredentials credentials, int maximumBatchSize = DefaultBatchSize,
+        public PcfMetricForwarderSettings(PcfIdentity identity, MetricsForwarderCredentials credentials,
+            int maximumBatchSize = DefaultBatchSize,
             TimeSpan? maxBatchInterval = null, TimeSpan? pcfHttpTimeout = null, bool debugLogging = false,
             bool errorLogging = true)
         {
@@ -47,10 +38,10 @@ namespace Petabridge.Monitoring.PCF
             TimeProvider = new DateTimeOffsetTimeProvider();
         }
 
-       public MetricsForwarderCredentials Credentials { get; }
+        public MetricsForwarderCredentials Credentials { get; }
 
         /// <summary>
-        /// The identity of this specific application and instance.
+        ///     The identity of this specific application and instance.
         /// </summary>
         public PcfIdentity Identity { get; }
 
@@ -80,8 +71,24 @@ namespace Petabridge.Monitoring.PCF
         public bool ErrorLogging { get; }
 
         /// <summary>
-        /// The <see cref="ITimeProvider"/> used by the metrics reporting system.
+        ///     The <see cref="ITimeProvider" /> used by the metrics reporting system.
         /// </summary>
         public ITimeProvider TimeProvider { get; set; }
+
+        /// <summary>
+        ///     Creates a new set of PCF Metrics Forwarder settings from built-in environment variables.
+        /// </summary>
+        /// <returns>A new settings instance.</returns>
+        public static PcfMetricForwarderSettings FromEnvironment(int maximumBatchSize = DefaultBatchSize,
+            TimeSpan? maxBatchInterval = null, TimeSpan? pcfHttpTimeout = null, bool debugLogging = false,
+            bool errorLogging = true)
+        {
+            return new PcfMetricForwarderSettings(new PcfIdentity(
+                    PcfEnvironment.Instance.Value.VCAP_APPLICATION.ApplicationId,
+                    PcfEnvironment.Instance.Value.CF_INSTANCE_GUID,
+                    PcfEnvironment.Instance.Value.CF_INSTANCE_INDEX ?? 0),
+                MetricsCredentialParser.ParseVcapServices(), maximumBatchSize, maxBatchInterval, pcfHttpTimeout,
+                debugLogging, errorLogging);
+        }
     }
 }
