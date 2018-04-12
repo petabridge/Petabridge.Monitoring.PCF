@@ -1,9 +1,14 @@
-using System;
+// -----------------------------------------------------------------------
+// <copyright file="MetricsCredentialParserSpecs.cs" company="Petabridge, LLC">
+//      Copyright (C) 2018 - 2018 Petabridge, LLC <https://petabridge.com>
+// </copyright>
+// -----------------------------------------------------------------------
+
 using FluentAssertions;
 using Petabridge.Monitoring.PCF.Impl;
 using Xunit;
 
-namespace Petabridge.Monitoring.PCF.Tests
+namespace Petabridge.Monitoring.PCF.Tests.Impl
 {
     public class MetricsCredentialParserSpecs
     {
@@ -13,7 +18,7 @@ namespace Petabridge.Monitoring.PCF.Tests
                {
                 ""credentials"": {
                  ""access_key"": ""abcd123"",
-                 ""hostname"": ""https://api.pcf.io/metrics""
+                 ""endpoint"": ""https://api.pcf.io/metrics""
                 },
                 ""label"": ""metrics-forwarder"",
                 ""name"": ""[service_instance_name]"",
@@ -31,7 +36,7 @@ namespace Petabridge.Monitoring.PCF.Tests
         {
             var credentials = MetricsCredentialParser.ParseVcapServices(VcapCredentialsJson);
             credentials.AccessKey.Should().Be("abcd123");
-            credentials.HostName.Should().Be("https://api.pcf.io/metrics");
+            credentials.EndPoint.Should().Be("https://api.pcf.io/metrics");
         }
     }
 }
