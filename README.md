@@ -96,3 +96,5 @@ If you add any new projects to the solution created with this template, be sure 
 ```
 <Import Project="..\common.props" />
 ```
+
+This library is maintained by Petabridge®. Copyright 2018.
