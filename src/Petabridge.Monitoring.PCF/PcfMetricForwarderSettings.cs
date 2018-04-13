@@ -26,7 +26,7 @@ namespace Petabridge.Monitoring.PCF
         public PcfMetricForwarderSettings(PcfIdentity identity, MetricsForwarderCredentials credentials,
             int maximumBatchSize = DefaultBatchSize,
             TimeSpan? maxBatchInterval = null, TimeSpan? pcfHttpTimeout = null, bool debugLogging = false,
-            bool errorLogging = true)
+            bool errorLogging = true, ITimeProvider timeProvider = null, bool applySuffixes = true)
         {
             Identity = identity;
             Credentials = credentials;
@@ -35,7 +35,8 @@ namespace Petabridge.Monitoring.PCF
             PcfHttpTimeout = pcfHttpTimeout ?? DefaultHttpTimeoutInterval;
             DebugLogging = debugLogging;
             ErrorLogging = errorLogging;
-            TimeProvider = new DateTimeOffsetTimeProvider();
+            TimeProvider = timeProvider ?? new DateTimeOffsetTimeProvider();
+            ApplyMetricsSuffixes = applySuffixes;
         }
 
         public MetricsForwarderCredentials Credentials { get; }
@@ -73,7 +74,16 @@ namespace Petabridge.Monitoring.PCF
         /// <summary>
         ///     The <see cref="ITimeProvider" /> used by the metrics reporting system.
         /// </summary>
-        public ITimeProvider TimeProvider { get; set; }
+        public ITimeProvider TimeProvider { get; }
+
+        /// <summary>
+        /// When set to <c>true</c>, automatically supplies suffixes to the names of the
+        /// counters and timings that are recorded by the <see cref="IPcfMetricRecorder"/>.
+        /// </summary>
+        /// <remarks>
+        /// Defaults to <c>true</c>.
+        /// </remarks>
+        public bool ApplyMetricsSuffixes { get; }
 
         /// <summary>
         ///     Creates a new set of PCF Metrics Forwarder settings from built-in environment variables.
@@ -81,7 +91,7 @@ namespace Petabridge.Monitoring.PCF
         /// <returns>A new settings instance.</returns>
         public static PcfMetricForwarderSettings FromEnvironment(int maximumBatchSize = DefaultBatchSize,
             TimeSpan? maxBatchInterval = null, TimeSpan? pcfHttpTimeout = null, bool debugLogging = false,
-            bool errorLogging = true)
+            bool errorLogging = true, ITimeProvider timeProvider = null, bool applySuffixes = true)
         {
             return new PcfMetricForwarderSettings(new PcfIdentity(
                     PcfEnvironment.Instance.Value.VCAP_APPLICATION.ApplicationId,
