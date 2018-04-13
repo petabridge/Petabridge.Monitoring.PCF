@@ -16,7 +16,7 @@ using Petabridge.Monitoring.PCF.Util;
 
 namespace Petabridge.Monitoring.PCF
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IPcfMetricRecorder"/>
     /// <summary>
     ///     A <see cref="T:Petabridge.Monitoring.PCF.IPcfMetricRecorder" /> implementation that uses Akka.NET actors to
     ///     aggregate
@@ -72,13 +72,13 @@ namespace Petabridge.Monitoring.PCF
         public void IncrementCounter(string name, int value = 1)
         {
             _counterAggregatorRef.Tell(
-                new CounterAggregator.CounterIncrement(ApplyPostfix(name, CounterPostfix), value));
+                new CounterAggregator.CounterIncrement(Settings.ApplyMetricsSuffixes ? ApplyPostfix(name, CounterPostfix) : name, value));
         }
 
         public void DecrementCounter(string name, int value = -1)
         {
             _counterAggregatorRef.Tell(
-                new CounterAggregator.CounterIncrement(ApplyPostfix(name, CounterPostfix), value));
+                new CounterAggregator.CounterIncrement(Settings.ApplyMetricsSuffixes ? ApplyPostfix(name, CounterPostfix) : name, value));
         }
 
         public void RecordGauge(string name, double value)
@@ -88,7 +88,7 @@ namespace Petabridge.Monitoring.PCF
 
         public void RecordTiming(string name, long value)
         {
-            _reporterActorRef.Tell(new PcfMetricRecording(ApplyPostfix(name, TimingPostfix), value, "milliseconds",
+            _reporterActorRef.Tell(new PcfMetricRecording(Settings.ApplyMetricsSuffixes ? ApplyPostfix(name, TimingPostfix) : name, value, "milliseconds",
                 TimeProvider.NowUnixEpoch, null));
         }
 
