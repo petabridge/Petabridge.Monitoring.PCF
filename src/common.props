@@ -2,8 +2,9 @@
   <PropertyGroup>
     <Copyright>Copyright © 2015-2018 Petabridge</Copyright>
     <Authors>Petabridge</Authors>
-    <VersionPrefix>0.1.0</VersionPrefix>
-    <PackageReleaseNotes>First release of `Petabridge.Monitoring.PCF`.</PackageReleaseNotes>
+    <VersionPrefix>0.1.1</VersionPrefix>
+    <PackageReleaseNotes>Implemented [Add option to disable metric postfixes](https://github.com/petabridge/Petabridge.Monitoring.PCF/issues/8)
+Upgraded to [Akka.Bootstrap.PCF v0.1.2](https://github.com/petabridge/akkadotnet-bootstrap/tree/dev/src/Akka.Bootstrap.PCF)</PackageReleaseNotes>
     <PackageIconUrl>https://petabridge.com/images/logo.png</PackageIconUrl>
     <PackageProjectUrl>
       https://github.com/petabridge/Petabridge.Monitoring.PCF
