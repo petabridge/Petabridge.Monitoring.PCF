@@ -93,12 +93,24 @@ namespace Petabridge.Monitoring.PCF
             TimeSpan? maxBatchInterval = null, TimeSpan? pcfHttpTimeout = null, bool debugLogging = false,
             bool errorLogging = true, ITimeProvider timeProvider = null, bool applySuffixes = true)
         {
-            return new PcfMetricForwarderSettings(new PcfIdentity(
-                    PcfEnvironment.Instance.Value.VCAP_APPLICATION.ApplicationId,
-                    PcfEnvironment.Instance.Value.CF_INSTANCE_GUID,
-                    PcfEnvironment.Instance.Value.CF_INSTANCE_INDEX ?? 0),
-                MetricsCredentialParser.ParseVcapServices(), maximumBatchSize, maxBatchInterval, pcfHttpTimeout,
-                debugLogging, errorLogging);
+            if (PcfEnvironment.IsRunningPcf)
+            {
+                return new PcfMetricForwarderSettings(new PcfIdentity(
+                        PcfEnvironment.Instance.Value.VCAP_APPLICATION.ApplicationId,
+                        PcfEnvironment.Instance.Value.CF_INSTANCE_GUID,
+                        PcfEnvironment.Instance.Value.CF_INSTANCE_INDEX ?? 0),
+                    MetricsCredentialParser.ParseVcapServices(), maximumBatchSize, maxBatchInterval, pcfHttpTimeout,
+                    debugLogging, errorLogging, timeProvider, applySuffixes);
+            }
+            else
+            {
+                return new PcfMetricForwarderSettings(new PcfIdentity(
+                        null,
+                        null,
+                        0),
+                    new MetricsForwarderCredentials(null, null), maximumBatchSize, maxBatchInterval, pcfHttpTimeout,
+                    debugLogging, errorLogging, timeProvider, applySuffixes);
+            }
         }
     }
 }
