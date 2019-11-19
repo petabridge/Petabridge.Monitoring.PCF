@@ -2,9 +2,8 @@
   <PropertyGroup>
     <Copyright>Copyright © 2015-2018 Petabridge</Copyright>
     <Authors>Petabridge</Authors>
-    <VersionPrefix>0.1.2</VersionPrefix>
-    <PackageReleaseNotes>Upgraded to [Akka.Bootstrap.PCF v0.1.3](https://github.com/petabridge/akkadotnet-bootstrap/tree/dev/src/Akka.Bootstrap.PCF)
-Added XML-DOC support to NuGet packages.</PackageReleaseNotes>
+    <VersionPrefix>0.1.3</VersionPrefix>
+    <PackageReleaseNotes>Upgraded all dependencies.</PackageReleaseNotes>
     <PackageIconUrl>https://petabridge.com/images/logo.png</PackageIconUrl>
     <PackageProjectUrl>
       https://github.com/petabridge/Petabridge.Monitoring.PCF
