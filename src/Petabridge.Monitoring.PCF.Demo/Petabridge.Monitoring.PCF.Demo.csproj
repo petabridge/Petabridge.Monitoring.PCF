@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
-    <PackageReference Include="Petabridge.Cmd.Host" Version="0.7.0" />
+    <PackageReference Include="Petabridge.Cmd.Host" Version="0.8.0" />
   </ItemGroup>
 
   <ItemGroup>
